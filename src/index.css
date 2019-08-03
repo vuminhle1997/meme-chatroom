@@ -11,3 +11,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.gif-container{
+  display: inline-block;
+  margin: .25em;
+}
+.gif-container:first-child{
+  margin-left: .45em;
+}
+
+.gif-container:last-child {
+  margin-right: .45em;
+}
+.gif-container img{
+  width: 256px;
+  height: 128px;
+}
+
+.flex-container {
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+

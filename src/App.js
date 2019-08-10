@@ -3,12 +3,14 @@ import logo from './logo.svg';
 import './static/css/styles.scss';
 import GIPHYForm from './components/GIPHYForm';
 import Layout from './components/Layout';
+import SpotifyForm from './components/SpotifyForm';
 require('dotenv').config()
 
-function App() {
+
+function App() { 
   return (
     <div className="App">
-      <Layout title="YES" />
+      <Layout/>
     </div>
   );
 }
@@ -29,4 +31,5 @@ export default App;
           Learn React
         </a>
         <GIPHYForm></GIPHYForm>
-      </header>*/
+      </header>
+      */

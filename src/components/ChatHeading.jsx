@@ -1,8 +1,10 @@
 import React from 'react';
+import { Fab } from '@material-ui/core';
 
-export default function({name, numberOfUsers}) {
-
-    return (
+export default class ChatHeading extends React.Component{  
+    render() {
+        const { numberOfUsers, name, verifySpotify } = this.props;
+        return (
         <div className="chat-header">
             <div className="user-info">
                 <div className="user-name">{name}</div>
@@ -12,10 +14,11 @@ export default function({name, numberOfUsers}) {
                 </div>
             </div>
             <div className="options">
-                <p>Vidoe</p>
-                <p>Vidoe</p>
-                <p>Vidoe</p>
+                <Fab onClick={verifySpotify}>
+                    add
+                </Fab>
             </div>
         </div>
-    )
+        );
+    }
 }

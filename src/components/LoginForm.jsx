@@ -10,7 +10,13 @@ export default class LoginForm extends Component {
 	  	error:""
 	  };
 	}
-
+	componentDidMount = () => {
+		const { socket } = this.props
+		setTimeout(() => {
+			const name = sessionStorage.getItem('name');
+			if (name) socket.emit(VERIFY_USER, name, this.setUser)
+		}, 50)
+	}
 	setUser = ({user, isUser})=>{
 		if(isUser){
             console.log ("Server already has this user!")
@@ -28,6 +34,7 @@ export default class LoginForm extends Component {
 		const { socket } = this.props
 		const { nickname } = this.state
 		console.log("NOW VERIFYING")
+		sessionStorage.setItem('name', nickname);
 		socket.emit(VERIFY_USER, nickname, this.setUser)
 	}
 

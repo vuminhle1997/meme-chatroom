@@ -1,11 +1,11 @@
 const io = require('./app.js').io;
 const { VERIFY_USER, USER_CONNECTED, LOGOUT, USER_DISCONNECTED,
 	 	COMMUNITY_CHAT, MESSAGE_RECEIVED, MESSAGE_SENT,
-	 	 TYPING }  = require('../src/Events')
+	 	 TYPING, PRIVATE_MESSAGE, NEW_CHAT_USER }  = require('../src/Events')
 const { createUser, createMessage, createChat } = require('../src/Factories')
 let connectedUsers = { }
 
-let communityChat = createChat()
+let communityChat = createChat({ isCommunity: true})
 
 module.exports = function(socket){
 					
@@ -23,12 +23,13 @@ module.exports = function(socket){
             callback({ isUser:true, user:null })
             console.log("he is already there")
 		}else{
-            callback({ isUser:false, user:createUser({name:nickname})});
+            callback({ isUser:false, user:createUser({name:nickname, socketId: socket.id})});
 		}
 	})
 
 	//User Connects with username
 	socket.on(USER_CONNECTED, (user)=>{
+		user.socketId = socket.id;
 		connectedUsers = addUser(connectedUsers, user)
 		socket.user = user
 
@@ -70,6 +71,30 @@ module.exports = function(socket){
 		console.log(chatId, isTyping);
 		sendTypingFromUser(chatId, isTyping);
 	})
+
+	socket.on(PRIVATE_MESSAGE, ({receiver, sender, activeChat}) => {
+		//console.log(reciever, sender);
+		if (receiver in connectedUsers) {
+			const receiverSocket = connectedUsers[receiver].socketId;
+			if (activeChat === null || activeChat.id === communityChat.id) {
+				const newChat = createChat({ name: `${receiver} & ${sender}`, users:[receiver, sender]});
+				
+				socket.to(receiverSocket).emit(PRIVATE_MESSAGE, newChat);
+				socket.emit(PRIVATE_MESSAGE, newChat);
+			} else {
+				if (!(receiver in activeChat.users)) {
+					activeChat.users
+								.filter((user) => user in connectedUsers)
+								.map( user => connectedUsers[user] )
+								.map( user => {
+									socket.to(user.socketId).emit(NEW_CHAT_USER, { chatId: activeChat.Id, newUser: receiver})
+								});
+					socket.emit(NEW_CHAT_USER, {chatId: activeChat.id, newUser: receiver});
+				}
+				socket.to(receiverSocket).emit(PRIVATE_MESSAGE, activeChat);
+			}
+		}
+	});
 }
 
 /**

@@ -1,7 +1,8 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import { TextField, Tabs, Tab, AppBar } from '@material-ui/core';
+import { TextField, Tabs, Tab, AppBar, Icon, Fab } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+require('dotenv').config()
 
 
 const axios = require('axios');
@@ -81,7 +82,8 @@ class GIPHYForm extends React.Component {
         setTimeout(() => {
             if (term.length > 2) {
                 console.log(process.env.GIPHY_API_KEY)
-                let url = 'http://api.giphy.com/v1/gifs/search?q='+term+'&api_key=ZDhnVLDUdlwWGqLxfc9f2kEVe6syMQNl';
+                const API_KEY ='ZDhnVLDUdlwWGqLxfc9f2kEVe6syMQNl'
+                let url = 'http://api.giphy.com/v1/gifs/search?q='+`${term}`+`&api_key=${API_KEY}`;
                 /*axios.get('', {
                     params: {
                         api_key: 'ZDhnVLDUdlwWGqLxfc9f2kEVe6syMQNl',
@@ -123,7 +125,10 @@ class GIPHYForm extends React.Component {
         });
         return (
         <div className="giphys-container"> 
-            <Tabs value={this.state.value} color="primary" onChange={this.handleChange} variant="scrollable"  scrollButtons="on" indicatorColor="primary">
+            <div>
+                
+            </div>
+            <Tabs value={this.state.value} className="giphy-tabs" color="primary" onChange={this.handleChange} variant="scrollable"  scrollButtons="on" indicatorColor="primary">
                 <Tab label="Trending"></Tab>
                 <Tab label="LOL"></Tab>
                 <Tab label="CAT"></Tab>
@@ -131,8 +136,15 @@ class GIPHYForm extends React.Component {
                 <Tab label="BLACKPINK ❤️"></Tab>
                 <Tab label="LOVE"></Tab>
             </Tabs>
+            <div className="giphy-inputs">
+                <TextField fullWidth variant="outlined" margin="dense" className="gif-input" onChange={this.handleGiphy} placeholder="Looking GIFs on GIPHY?"></TextField> 
+                <Fab color="primary"  className="close-giphy" onClick={this.props.closeGiphy}>
+                    <Icon>
+                        close
+                    </Icon>
+                </Fab>
+            </div>
             
-            <TextField fullWidth variant="outlined" margin="dense" className="gif-input" onChange={this.handleGiphy} placeholder="Looking GIFs on GIPHY?"></TextField> 
             <Paper className="gifs-list">
                 <div className="flex-container">
                 {

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import GIPHYForm from './GIPHYForm';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import { TextField } from '@material-ui/core';
 export default class MessageInput extends Component {
     constructor(props) {
         super(props);
@@ -55,8 +58,12 @@ export default class MessageInput extends Component {
         }
     }
 
-    openGIPHY = () => {
-        this.setState({ showGIPHY: true })
+    toggleGIPHY = () => {
+        !this.state.showGIPHY ? this.setState({ showGIPHY: true }) : this.setState({ showGIPHY: false })
+    }
+
+    closeGIPHY = () => {
+        this.setState({ showGIPHY: false })
     }
 
     handleShowGIF = (gif) => {
@@ -70,32 +77,35 @@ export default class MessageInput extends Component {
 
     render() {
         const { message } = this.state;
-        const GIPHYPanel = this.state.showGIPHY ? <GIPHYForm className="giphy-form" onClick={this.handleShowGIF} /> : '';
+        const GIPHYPanel = this.state.showGIPHY ? <GIPHYForm className="giphy-form" onClick={this.handleShowGIF} 
+            closeGiphy={this.closeGIPHY} /> : '';
         return (
             <div className="message-input">
                 <form 
                     onSubmit={this.handleSubmit}
                     className="message-form"
                 >
-                    <input 
-                        id="message"
-                        ref={"messageinput"}
-                        type="text"
-                        className="form-control"
-                        value = { message } 
-                        autoComplete={'off'}
-                        placeholder="Hi Clark"
-                        onKeyUp={ e => {e.keyCode !== 13 &&  this.sendTyping()} }
-                        onChange={
-                            ({target}) => {
-                                this.setState( {message: target.value} );
-                            }
-                        }
-                    />
+                    <TextField 
+                         id="message"
+                         ref={"messageinput"}
+                         type="text"
+                         className="form-control"
+                         value = { message } 
+                         autoComplete={'off'}
+                         placeholder="Hi Clark"
+                         onKeyUp={ e => {e.keyCode !== 13 &&  this.sendTyping()} }
+                         onChange={
+                             ({target}) => {
+                                 this.setState( {message: target.value} );
+                             }
+                        }   
+                    ></TextField>
                     {GIPHYPanel}
-                    <button onClick={this.openGIPHY}>
-                        GIPHY
-                    </button>
+                    <Fab color="primary" aria-label="add" onClick={this.toggleGIPHY} className="giphy-button">
+                        <Icon>
+                            gif
+                        </Icon>
+                    </Fab>
                     <button
                         disabled={ message.length < 1 }
                         type="submit"

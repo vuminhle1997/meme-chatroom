@@ -10,7 +10,7 @@ require('dotenv').config()
 function App() { 
   return (
     <div className="App">
-      <Layout/>
+      <SpotifyForm/>
     </div>
   );
 }

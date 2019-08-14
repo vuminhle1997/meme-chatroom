@@ -594,3 +594,21 @@ position: relative;
 img {
   width: 100%;
 }
+
+.artists-div{
+  display: flex;
+  flex-wrap: wrap;
+  .artist-div{
+    width: 30%;
+    margin: 1.5%;
+  }
+}
+
+.tracks-div{
+  display: flex;
+  flex-wrap: wrap;
+  .track-div{
+    width: 30%;
+    margin: 1.5%;
+  }
+}

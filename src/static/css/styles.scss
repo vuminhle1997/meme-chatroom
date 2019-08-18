@@ -586,29 +586,84 @@ position: relative;
   background-color: #eca7e1;
   /* height: 100%; */
   /* width: auto; */
-  margin: 0 auto;
+  margin: .25vh .1em !important;
   display: block;
-  top: 5%;
+  height: 4.5vh !important;
   right: 2px;
+  button {
+    
+  }
 }
 img {
   width: 100%;
 }
 
-.artists-div{
+
+.tracks-div, .artists-div{
   display: flex;
   flex-wrap: wrap;
   .artist-div{
-    width: 30%;
+    border-radius: .5em;
+    width: 17%;
     margin: 1.5%;
+    border: 1px solid #b2b2b2;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    -webkit-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    img {
+      max-height: 360px;
+      border-radius: 50%;
+      border: 4px solid #484d79;
+    }
+  }
+  .track-div {
+    border-radius: .5em;
+    width: 17%;
+    margin: 1.5%;
+    border: 1px solid #b2b2b2;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    -webkit-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+    img {
+      max-height: 360px;
+    }
+    
+  }
+  button {
+    margin: .2em .4em;
   }
 }
 
-.tracks-div{
-  display: flex;
-  flex-wrap: wrap;
-  .track-div{
-    width: 30%;
-    margin: 1.5%;
+.spotify-results {
+  height: 85vh;
+  overflow: auto;
+  position: absolute;
+  bottom: 5vh;
+}
+
+@media screen and (max-width: 420px) {
+  .artists-div, .tracks-div {
+    display: flex;
+    flex-direction: row !important;
+    .artist-div, .track-div{
+      border-radius: .5em;
+      width: 47% !important;
+      margin: 1.5%;
+      border: 1px solid #b2b2b2;
+      padding-top: 1em;
+      padding-bottom: 1em;
+      -webkit-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+      -moz-box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+      box-shadow: 0px 10px 21px -7px rgba(0,0,0,0.75);
+      img {
+        max-height: 360px;
+        border-radius: 50%;
+        border: 4px solid #484d79;
+      }
+    }
   }
 }

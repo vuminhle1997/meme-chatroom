@@ -27,8 +27,7 @@ export default class ChatContainer extends React.Component {
         this.initSocket(socket);
         setTimeout(() => {
             var url = new URL(window.location.href);
-            var ACCESS_TOKEN = url.searchParams.get('code');
-            console.log(ACCESS_TOKEN);
+            var ACCESS_TOKEN = url.searchParams.get('access_token');
             if (ACCESS_TOKEN) this.setState({ACCESS_TOKEN: ACCESS_TOKEN, spotifyIsVerified: true})
         }, 100)
     }
@@ -190,17 +189,18 @@ export default class ChatContainer extends React.Component {
         socket.emit(TYPING, {chatId, isTyping});
     }
 
+    /**
+     * If user is not authenticated yet and want to share his/her favourite track, he/she
+     * gets redirected to another page
+     */
     verifySpotify = () => {
         const { spotifyIsVerified } = this.state;
         // TODO: verifies spotify,
         // if succeeded, user can show preview of tracks
-        
-        if (!spotifyIsVerified) {
+        if(!spotifyIsVerified) {
             console.log("VERIFY SPOTIFY");
             window.location.replace("http://localhost:3231");
-        } else {
-            this.setState({ showSpotifyForm: true })
-        }
+        } 
     }
 
     render() {
@@ -221,13 +221,14 @@ export default class ChatContainer extends React.Component {
                     {
                         activeChat !== null ? 
                         <div className="chat-room">
-                            <ChatHeading name={activeChat.name} verifySpotify={this.verifySpotify} />
+                            <ChatHeading name={activeChat.name} spotifyIsVerified={this.state.spotifyIsVerified} verifySpotify={this.verifySpotify} />
                             <Messages 
                                 messages={activeChat.messages}
                                 user={user}
                                 typingUsers={activeChat.typingUsers}
                             />
                             <MessageInput
+                                spotifyIsVerified={this.state.spotifyIsVerified}
                                 sendMessage={
                                     (message) => {
                                         this.sendMessage(activeChat.id, message);

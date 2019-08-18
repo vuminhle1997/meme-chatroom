@@ -12,7 +12,7 @@ var io = module.exports.io = require('socket.io')(server)
 
 const client_id = '17bb1404c9f0407780dd377d2bd10699'; // Your client id
 const client_secret = 'f4c5a30e030e4d4cb7f3ff1c8ee53f59'; // Your secret
-const redirect_uri = 'http://localhost:3000/'; // Your redirect uri
+const redirect_uri = 'http://localhost:3231/callback'; // Your redirect uri
 
 /**
  * SocketManager, as the name itself describes, manages the whole communication between
@@ -107,7 +107,7 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect('http://localhost:3000/?' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token

@@ -3,7 +3,7 @@ import { Fab } from '@material-ui/core';
 
 export default class ChatHeading extends React.Component{  
     render() {
-        const { numberOfUsers, name, verifySpotify } = this.props;
+        const { numberOfUsers, name, verifySpotify, spotifyIsVerified } = this.props;
         return (
         <div className="chat-header">
             <div className="user-info">
@@ -14,9 +14,15 @@ export default class ChatHeading extends React.Component{
                 </div>
             </div>
             <div className="options">
-                <Fab onClick={verifySpotify}>
-                    add
-                </Fab>
+                {
+                    () => {
+                        const BUTTON = spotifyIsVerified ? '':
+                        <Fab onClick={verifySpotify}>
+                            add
+                        </Fab>;
+                        return BUTTON;
+                    }
+                }
             </div>
         </div>
         );

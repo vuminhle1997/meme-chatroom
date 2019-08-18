@@ -3,6 +3,7 @@ import { SideBarOption } from './SidebarOption'
 
 import { get, last, differenceBy } from 'lodash';
 import { createChatNameFromUsers } from '../Factories'
+import { Icon } from '@material-ui/core';
 export default class SideBar extends Component{
 	static type = {
 		USERS:"users",
@@ -39,12 +40,10 @@ export default class SideBar extends Component{
 			<div id="side-bar">
 					<div className="heading">
 						<div className="app-name">Our Cool Chat </div>
-						<div className="menu">
-							MENU
-						</div>
 					</div>
 					<form onSubmit={this.handleSubmit} className="search">
-						<i className="search-icon">SEARCH</i>
+						<i className="search-icon"><Icon>
+							search</Icon></i>
 						<input 
 							placeholder="Search" 
 							type="text"
@@ -96,7 +95,9 @@ export default class SideBar extends Component{
 					<div className="current-user">
 						<span>{user.name}</span>
 						<div onClick={()=>{logout()}} title="Logout" className="logout">
-							LOGOUT
+							<Icon>
+								eject
+							</Icon>
 						</div>
 					</div>
 			</div>

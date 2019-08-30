@@ -9,6 +9,7 @@ export default class SideBar extends Component{
 		USERS:"users",
 		CHATS:"chats"
 	}
+	
 	constructor(props){
 		super(props)
 		this.state = {
@@ -16,6 +17,7 @@ export default class SideBar extends Component{
 			activeSideBar: SideBar.type.CHATS
 		}
 	}
+
 	handleSubmit = (e) => {
 		e.preventDefault()
 		const { receiver } = this.state
@@ -29,6 +31,7 @@ export default class SideBar extends Component{
 		this.props.onSendPrivateMessage(receiver)
 		this.setActiveSideBar(SideBar.type.CHATS)
 	}
+
 	setActiveSideBar = (type) => {
 		this.setState({ activeSideBar:type })
 	}

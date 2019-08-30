@@ -10,6 +10,7 @@ export default class LoginForm extends Component {
 	  	error:""
 	  };
 	}
+
 	componentDidMount = () => {
 		const { socket } = this.props
 		setTimeout(() => {
@@ -17,6 +18,7 @@ export default class LoginForm extends Component {
 			if (name) socket.emit(VERIFY_USER, name, this.setUser)
 		}, 50)
 	}
+	
 	setUser = ({user, isUser})=>{
 		if(isUser){
             console.log ("Server already has this user!")

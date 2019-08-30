@@ -195,8 +195,6 @@ export default class ChatContainer extends React.Component {
      */
     verifySpotify = () => {
         const { spotifyIsVerified } = this.state;
-        // TODO: verifies spotify,
-        // if succeeded, user can show preview of tracks
         if(!spotifyIsVerified) {
             console.log("VERIFY SPOTIFY");
             window.location.replace("http://localhost:3231");
@@ -221,7 +219,7 @@ export default class ChatContainer extends React.Component {
                     {
                         activeChat !== null ? 
                         <div className="chat-room">
-                            <ChatHeading name={activeChat.name} spotifyIsVerified={this.state.spotifyIsVerified} verifySpotify={this.verifySpotify} />
+                            <ChatHeading name={activeChat.name} />
                             <Messages 
                                 messages={activeChat.messages}
                                 user={user}
@@ -229,6 +227,7 @@ export default class ChatContainer extends React.Component {
                             />
                             <MessageInput
                                 spotifyIsVerified={this.state.spotifyIsVerified}
+                                verifySpotify={this.verifySpotify}
                                 sendMessage={
                                     (message) => {
                                         this.sendMessage(activeChat.id, message);

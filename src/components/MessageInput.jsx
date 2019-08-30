@@ -3,9 +3,10 @@ import GIPHYForm from './GIPHYForm';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
-import { TextField } from '@material-ui/core';
+import { TextField, Paper } from '@material-ui/core';
 import SpotifyForm from './SpotifyForm';
 import placeholder from '../static/img/track-dummy.jpg'
+
 export default class MessageInput extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +14,8 @@ export default class MessageInput extends Component {
             message: '',
             isTyping: false, 
             showGIPHY: false, 
-            showSpotify : false
+            showSpotify : false,
+            showSendItems: false
         }
     }
 
@@ -84,6 +86,7 @@ export default class MessageInput extends Component {
      */
     toggleGIPHY = () => {
         !this.state.showGIPHY ? this.setState({ showGIPHY: true }) : this.setState({ showGIPHY: false })
+        this.setState({showSendItems: false, showSpotify: false})
     }
 
     /**
@@ -91,6 +94,7 @@ export default class MessageInput extends Component {
      */
     toggleSpotify = () => {
         !this.state.showSpotify ? this.setState({ showSpotify: true }) : this.setState({ showSpotify: false })
+        this.setState({showSendItems: false, showGIPHY: false})
     }
 
     closeGIPHY = () => {
@@ -147,23 +151,55 @@ export default class MessageInput extends Component {
         this.sendSpotify(string);
     }
 
+    toggleSendItems = () => {
+        !this.state.showSendItems ? this.setState({showSendItems: true}) : this.setState({showSendItems: false});
+    }
+
+    closeSpotifyForm = () => {
+        this.setState({showSpotify: false})
+    }
+
     render() {
         const { message } = this.state;
+        const { spotifyIsVerified, verifySpotify } = this.props;
         const GIPHYPanel = this.state.showGIPHY ? <GIPHYForm className="giphy-form" onClick={this.handleShowGIF} 
-            closeGiphy={this.closeGIPHY} /> : '',
-            togglerSpotify = this.props.spotifyIsVerified ? <Fab color="primary" 
-                aria-label="add" onClick={this.toggleSpotify} className="giphy-button">
-            <Icon>
-                send
-            </Icon>
-            </Fab> : '',
-            spotifyPanel = this.state.showSpotify ? <SpotifyForm handleShowSpotify={this.handleShowSpotify}/> : '';
+            closeGiphy={this.closeGIPHY} /> : 
+            '',
+            spotifyPanel = this.state.showSpotify ? <SpotifyForm closeForm={this.closeSpotifyForm} handleShowSpotify={this.handleShowSpotify}/> :
+            '',
+            spotifyButton = !spotifyIsVerified ? <Fab color="primary" aria-label="add" onClick={verifySpotify} className="send-buttons">
+                <Icon>
+                    add
+                </Icon>
+            </Fab> :
+            <Fab color="primary" aria-label="add" onClick={this.toggleSpotify} className="send-buttons">
+                <Icon>
+                    send
+                </Icon>
+            </Fab>,
+            sendItemsPanel = this.state.showSendItems ? (
+                <Paper className="sendItem-panel">
+                    <Fab color="primary" aria-label="add" onClick={this.toggleGIPHY} className="send-buttons"   >
+                        <Icon>
+                            gif
+                        </Icon>
+                    </Fab>
+                    {spotifyButton}
+                </Paper>
+            ) :
+            '';
+
         return (
             <div className="message-input">
                 <form 
                     onSubmit={this.handleSubmit}
                     className="message-form"
                 >
+                <Fab className="giphy-button" onClick={this.toggleSendItems}>
+                    <Icon>
+                        add
+                    </Icon>
+                </Fab>
                     <TextField 
                          id="message"
                          ref={"messageinput"}
@@ -181,12 +217,7 @@ export default class MessageInput extends Component {
                     ></TextField>
                     {GIPHYPanel}
                     {spotifyPanel}
-                    {togglerSpotify}
-                    <Fab color="primary" aria-label="add" onClick={this.toggleGIPHY} className="giphy-button">
-                        <Icon>
-                            gif
-                        </Icon>
-                    </Fab>
+                    {sendItemsPanel}
                     <button
                         disabled={ message.length < 1 }
                         type="submit"

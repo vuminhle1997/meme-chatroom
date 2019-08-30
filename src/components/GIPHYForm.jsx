@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { TextField, Tabs, Tab, AppBar, Icon, Fab } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 require('dotenv').config()
 
 
@@ -83,24 +82,12 @@ class GIPHYForm extends React.Component {
             if (term.length > 2) {
                 console.log(process.env.GIPHY_API_KEY)
                 const API_KEY ='ZDhnVLDUdlwWGqLxfc9f2kEVe6syMQNl'
-                let url = 'http://api.giphy.com/v1/gifs/search?q='+`${term}`+`&api_key=${API_KEY}`;
-                /*axios.get('', {
-                    params: {
-                        api_key: 'ZDhnVLDUdlwWGqLxfc9f2kEVe6syMQNl',
-                        q: this.state.searchTerm
-                    }
-                }).then(function (response) {
-                    console.log(response);
-                }).catch(function (error) {
-                    console.log(error);
-                })*/
-                /* fetch(url)
-                    .then(response => response.json())
-                    .then((gifs) => {
-                        this.setState({ searchedGifs: gifs.data });
-                    });*/
+                let url = `http://api.giphy.com/v1/gifs/search?q${term}&api_key=${API_KEY}`;
                 axios.get(url)
-                    .then(response => this.setState( {searchedGifs: response.data.data }))
+                    .then(response => this.setState({searchedGifs: response.data.data }))
+                    .catch(function (error) {
+                        console.log(error);
+                    })
                 this.setState( { isSet: true });
             } else {
                 this.showTrending();

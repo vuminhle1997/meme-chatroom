@@ -8,11 +8,13 @@ export  class SideBarOption extends Component {
         active: PropTypes.bool,
         onClick: PropTypes.func
     }
+    
     static defaultProps = {
         lastMessage: '',
         active: false,
         onClick: () => {}
     }
+
     render() {
         const { name, lastMessage, active, onClick } = this.props;
         return (
